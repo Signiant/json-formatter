@@ -34,14 +34,17 @@ JSON Formatter is an AngularJS directive for rendering JSON objects in HTML with
 
 #### Configuration
 
-You can use `JSONFormatterConfig` provider to configure JOSN Formatter.
+You can use `JSONFormatterConfig` provider to configure JSON Formatter.
 
 Available configurations
 
 ##### Hover Preview
 * `hoverPreviewEnabled`: enable preview on hover
 * `hoverPreviewArrayCount`: number of array items to show in preview Any array larger than this number will be shown as `Array[XXX]` where `XXX` is length of the array.
-* `hoverPreviewFieldCount`: number of object properties to show for object preview. Any object with more properties that thin number will be truncated.
+* `hoverPreviewFieldCount`: number of object properties to show for object preview. Any object with more properties that thin number will be truncated.  
+
+#### JSON Parsing  
+* `parseJSONValues`: attempt to parse stringified JSON values  
 
 Example using configuration
 

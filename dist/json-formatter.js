@@ -1,7 +1,7 @@
 /*!
  * jsonformatter
  * 
- * Version: 0.6.0 - 2016-08-27T12:58:03.306Z
+ * Version: 0.6.0 - 2017-02-22T20:06:46.310Z
  * License: Apache-2.0
  */
 
@@ -16,6 +16,7 @@ angular.module('jsonFormatter', ['RecursionHelper'])
   var hoverPreviewEnabled = false;
   var hoverPreviewArrayCount = 100;
   var hoverPreviewFieldCount = 5;
+  var parseJSONValues = false;
 
   return {
     get hoverPreviewEnabled() {
@@ -39,11 +40,19 @@ angular.module('jsonFormatter', ['RecursionHelper'])
       hoverPreviewFieldCount = parseInt(value, 10);
     },
 
+    get parseJSONValues(){
+      return parseJSONValues;
+    },
+    set parseJSONValues(value){
+      parseJSONValues = value;
+    },
+
     $get: function () {
       return {
         hoverPreviewEnabled: hoverPreviewEnabled,
         hoverPreviewArrayCount: hoverPreviewArrayCount,
-        hoverPreviewFieldCount: hoverPreviewFieldCount
+        hoverPreviewFieldCount: hoverPreviewFieldCount,
+        parseJSONValues: parseJSONValues
       };
     }
   };
@@ -66,11 +75,11 @@ angular.module('jsonFormatter', ['RecursionHelper'])
         return 'Object';
     }
 
-    //ES6 default gives name to constructor 
+    //ES6 default gives name to constructor
     if (object.__proto__ !== undefined && object.__proto__.constructor !== undefined && object.__proto__.constructor.name !== undefined) {
       return object.__proto__.constructor.name;
-    } 
-       
+    }
+
     var funcNameRegex = /function (.{1,})\(/;
     var results = (funcNameRegex).exec((object).constructor.toString());
     if (results && results.length > 1) {
@@ -117,6 +126,13 @@ angular.module('jsonFormatter', ['RecursionHelper'])
   }
 
   function link(scope) {
+    if(JSONFormatterConfig.parseJSONValues){
+      try{
+          var object = JSON.parse(scope.json);
+          scope.json = object;
+      }catch(e){}
+    }
+
     scope.isArray = function () {
       return angular.isArray(scope.json);
     };
@@ -235,6 +251,7 @@ angular.module('jsonFormatter', ['RecursionHelper'])
 if (typeof module === 'object') {
   module.exports = 'jsonFormatter';
 }
+
 'use strict';
 
 // from http://stackoverflow.com/a/18609594
